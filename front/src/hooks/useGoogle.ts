@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
+import { GOOGLE_API_KEY } from "../../config.json";
 
-export const useGoogle = (url: string) => {
+export const useGoogle = (
+	url: string,
+	radius: number,
+	lat: number,
+	lng: number,
+) => {
 	const [fetchData, setFetchData] = useState({
 		data: '',
 		isPending: false,
@@ -17,21 +23,21 @@ export const useGoogle = (url: string) => {
 					method: "POST",
 					body: JSON.stringify({
 						"includeTypes": ["restaurant"],
-						"maxResultCount": 10,
+						"maxResultCount": 15,
 						"locationRestriction": {
 							"circle": {
 								"center": {
-									"latitude": 33.95611,
-									"longitude": -84.05641,
+									"latitude": lat,
+									"longitude": lng,
 								},
-								"radius": 500.0
+								"radius": radius
 							}
 						}
 					}),
 					headers: {
 						"Content-Type": "application/json",
-						"X-Goog-Api-Key": "",
-						"X-Goog-FieldMask": "places.displayName"
+						"X-Goog-Api-Key": GOOGLE_API_KEY,
+						"X-Goog-FieldMask": "places.displayName,places.location"
 					}
 				});
 				if (!res.ok) throw new Error(res.statusText);
