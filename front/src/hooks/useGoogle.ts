@@ -44,7 +44,7 @@ export const useGoogle = (
 				setIsPending(false);
 				setGoogleData(json);
 			} catch (err) {
-				setError(`${err}: Could not fetch data`);
+				setError(`${err}: Could not nearby places from google`);
 			}
 
 		}
