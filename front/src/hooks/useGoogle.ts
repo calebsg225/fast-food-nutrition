@@ -14,7 +14,7 @@ export const useGoogle = (
 		const url = "https://places.googleapis.com/v1/places:searchNearby";
 		const body = JSON.stringify({
 			"includedTypes": ["restaurant"],
-			"maxResultCount": 25,
+			"maxResultCount": 20,
 			"locationRestriction": {
 				"circle": {
 					"center": {
