@@ -8,13 +8,27 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import * as L from "leaflet";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import { useGoogle } from "@/hooks/useGoogle";
+import { GooglePlace } from "@/hooks/apiTypes";
+
+function FoodPlace({ place }: { place: GooglePlace }) {
+  return (
+    <Marker
+      position={[
+        place.location.latitude,
+        place.location.longitude
+      ]}
+    >
+      <Tooltip>{place.displayName.text}</Tooltip>
+    </Marker>
+  );
+}
 
 export default function FoodMap() {
   const mapRef = useRef<L.Map>(null);
   const [location, setLocation] = useState<L.LatLng>(new L.LatLng(33.9560, -84.05647));
   const [zoom, setZoom] = useState<number>(15);
-  const [radius, setRadius] = useState<number>(200);
-  const { data, isPending } = useGoogle(radius, location.lat, location.lng);
+  const [radius, setRadius] = useState<number>(500);
+  const { googleData, isPending } = useGoogle(radius, location.lat, location.lng);
 
   const onUpdateLocation = () => {
     if (!mapRef.current) return;
@@ -34,20 +48,15 @@ export default function FoodMap() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker position={location}>
-          <Tooltip >current location</Tooltip>
+          <Tooltip>You Are Here</Tooltip>
         </Marker>
-        {data.places && data.places.map(place =>
-          <Marker
-            position={[
-              place.location.latitude,
-              place.location.longitude
-            ]}>
-            <Tooltip>{place.displayName.text}</Tooltip>
-          </Marker>
-        )}
+        {!isPending && googleData.places && googleData.places.map((place, i) => <FoodPlace
+          place={place}
+          key={i}
+        />)}
       </MapContainer>
     );
-  }, [data]);
+  }, [googleData]);
 
   return (
     <>
