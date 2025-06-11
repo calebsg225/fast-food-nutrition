@@ -13,4 +13,6 @@ type GoogleData = {
 	"places": GooglePlace[]
 };
 
-export type { GoogleData, GooglePlace }
+type RestaurantItems = {};
+
+export type { GoogleData, GooglePlace, RestaurantItems }
