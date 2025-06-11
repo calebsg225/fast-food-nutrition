@@ -7,20 +7,14 @@ export const useGoogle = (
 	lat: number,
 	lng: number,
 ) => {
-	const [fetchData, setFetchData] = useState(<{
-		data: GoogleData,
-		isPending: boolean,
-		error: string
-	}>{
-			data: {},
-			isPending: false,
-			error: '',
-		});
+	const [googleData, setGoogleData] = useState<GoogleData>({ places: [] });
+	const [isPending, setIsPending] = useState(true);
+	const [error, setError] = useState('');
 	useEffect(() => {
 		const url = "https://places.googleapis.com/v1/places:searchNearby";
 		const body = JSON.stringify({
 			"includedTypes": ["restaurant"],
-			"maxResultCount": 15,
+			"maxResultCount": 25,
 			"locationRestriction": {
 				"circle": {
 					"center": {
@@ -37,10 +31,7 @@ export const useGoogle = (
 			"X-Goog-FieldMask": "places.displayName,places.location"
 		};
 		const fetchData = async () => {
-			setFetchData(d => {
-				d.isPending = true;
-				return d
-			});
+			setIsPending(true);
 			try {
 				const res = await fetch(url,
 					{
@@ -50,21 +41,14 @@ export const useGoogle = (
 					});
 				if (!res.ok) throw new Error(res.statusText);
 				const json = await res.json();
-				setFetchData(d => {
-					d.isPending = false;
-					d.data = json;
-					return d;
-				});
+				setIsPending(false);
+				setGoogleData(json);
 			} catch (err) {
-				setFetchData(d => {
-					d.error = `${err} Could not fetch Data`;
-					return d;
-				});
+				setError(`${err}: Could not fetch data`);
 			}
 
 		}
 		fetchData();
 	}, [radius, lat, lng]);
-	console.log(fetchData);
-	return fetchData;
+	return { googleData, isPending, error };
 }
