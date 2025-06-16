@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { OFFRestaurantData } from "./apiTypes";
 
 export default function useOFFRestaurant(restaurant: string, page: number) {
-	const [offRestaurantData, setOffRestaurantData] = useState({});
+	const [offRestaurantData, setOffRestaurantData] = useState<OFFRestaurantData>({ count: 0, page: 1, page_count: 0, page_size: 1, products: [], skip: 0 });
 	const [isPending, setIsPending] = useState(true);
 	const [error, setError] = useState('');
 	useEffect(() => {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { OFFProductData } from "./apiTypes";
 
 export default function useOFFProduct(product_code: string) {
-	const [offProductData, setOffProductData] = useState({});
+	const [offProductData, setOffProductData] = useState<OFFProductData>({});
 	const [isPending, setIsPending] = useState(true);
 	const [error, setError] = useState('');
 	useEffect(() => {
