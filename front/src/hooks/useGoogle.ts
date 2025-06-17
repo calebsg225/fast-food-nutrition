@@ -41,8 +41,8 @@ export const useGoogle = (
 					});
 				if (!res.ok) throw new Error(res.statusText);
 				const json = await res.json();
-				setIsPending(false);
 				setGoogleData(json);
+				setIsPending(false);
 			} catch (err) {
 				setError(`${err}: Could not nearby places from google`);
 			}

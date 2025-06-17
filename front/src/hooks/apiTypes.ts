@@ -1,3 +1,4 @@
+// Google Types
 type GooglePlace = {
 	"location": {
 		"latitude": number,
@@ -15,4 +16,22 @@ type GoogleData = {
 
 type RestaurantItems = {};
 
-export type { GoogleData, GooglePlace, RestaurantItems }
+// OpenFoodFacts Types
+type OFFRestaurantData = {
+	"count": number,
+	"page": number,
+	"page_count": number,
+	"page_size": number,
+	"products": OFFRestaurantProduct[],
+	"skip": number,
+};
+
+type OFFRestaurantProduct = {
+	"code": string,
+	"generic_name": string,
+	"product_name": string
+};
+
+type OFFProductData = {};
+
+export type { GoogleData, GooglePlace, RestaurantItems, OFFRestaurantData, OFFRestaurantProduct, OFFProductData }
